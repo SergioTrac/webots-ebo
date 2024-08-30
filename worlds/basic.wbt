@@ -1,0 +1,98 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.3194926321809557 0.1430350597370862 0.9367312472999354 3.9894571585730527
+  position 0.20621230680793692 0.3455690680786477 -0.38189295630511383
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Robot {
+  children [
+    DEF Body Pose {
+      translation 0 0 0.01
+      children [
+        DEF wheel_right HingeJoint {
+          jointParameters HingeJointParameters {
+          }
+          device [
+            RotationalMotor {
+              name "motor_right"
+            }
+          ]
+          endPoint Solid {
+            rotation 1 0 0 0
+            children [
+              DEF WHEEL Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+            boundingObject USE WHEEL
+            physics DEF WHEEL_PhYSICS Physics {
+            }
+          }
+        }
+        DEF wheel_left HingeJoint {
+          jointParameters HingeJointParameters {
+          }
+          device [
+            RotationalMotor {
+              name "motor_left"
+            }
+          ]
+          endPoint Solid {
+            rotation 1 0 0 0
+            children [
+              USE WHEEL
+            ]
+            name "solid(1)"
+            boundingObject USE WHEEL
+            physics USE WHEEL_PhYSICS
+          }
+        }
+        DEF Carcasa Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../resources/meshes/EBO_Carcasa.stl"
+            ]
+          }
+        }
+        DEF Base Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../resources/meshes/EBO_Base.stl"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+  name "EBO"
+  model "EBOv2"
+  controller "<extern>"
+}

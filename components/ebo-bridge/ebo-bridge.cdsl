@@ -1,0 +1,11 @@
+import "DifferentialRobot.idsl";
+
+Component ebo-bridge
+{
+    Communications
+    {
+        implements DifferentialRobot;
+    };
+    language Cpp11;
+};
+
