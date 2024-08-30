@@ -1,6 +1,6 @@
 import "DifferentialRobot.idsl";
 
-Component ebo-bridge
+Component EboBridge
 {
     Communications
     {
