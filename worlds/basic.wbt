@@ -7,8 +7,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.3194926321809557 0.1430350597370862 0.9367312472999354 3.9894571585730527
-  position 0.20621230680793692 0.3455690680786477 -0.38189295630511383
+  orientation 0.22340492569543072 -0.02514099122721873 -0.974401441775992 3.436290783926344
+  position 0.5664024567752588 -0.22485330946540777 0.4149933551483218
 }
 TexturedBackground {
 }
@@ -17,12 +17,59 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 Robot {
+  translation 8.429484103586554e-09 1.0844056745428823e-07 -0.005204930417389985
+  rotation 0.8915506797715111 -0.00037625807257740906 0.45292079200321445 2.4841558074499944e-05
   children [
     DEF Body Pose {
       translation 0 0 0.01
       children [
+        Camera {
+          translation 0.0607 -0.001 0.1663
+          rotation 0 1 0 0.95
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 0.1
+                metalness 0.9
+              }
+              geometry Cylinder {
+                height 0.01
+                radius 0.0073
+              }
+            }
+          ]
+          width 300
+          height 300
+          far 100
+          lens Lens {
+          }
+        }
+        Solid {
+          translation 0.1036 -0.001 0.1125
+          rotation 0 1 0 0.95
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 0.2
+                metalness 0.9
+              }
+              geometry Box {
+                size 0.115 0.166 0.002
+              }
+              castShadows FALSE
+              isPickable FALSE
+            }
+            Display {
+            }
+          ]
+          name "Screen"
+        }
+        Speaker {
+          translation 0 0 0.21
+        }
         DEF wheel_right HingeJoint {
           jointParameters HingeJointParameters {
+            position -3.6157621918149865e-07
           }
           device [
             RotationalMotor {
@@ -30,7 +77,8 @@ Robot {
             }
           ]
           endPoint Solid {
-            rotation 1 0 0 0
+            translation -9.059162394247299e-07 -0.07999999315235301 1.9591285595879448e-05
+            rotation -0.03803774102644018 -0.033423253768209364 -0.9987171853758958 9.978972887112456e-06
             children [
               DEF WHEEL Shape {
                 appearance PBRAppearance {
@@ -51,6 +99,7 @@ Robot {
         }
         DEF wheel_left HingeJoint {
           jointParameters HingeJointParameters {
+            position 3.769892281228321e-07
           }
           device [
             RotationalMotor {
@@ -58,7 +107,8 @@ Robot {
             }
           ]
           endPoint Solid {
-            rotation 1 0 0 0
+            translation 7.240738271020264e-07 0.07999999985454036 1.493617597987411e-05
+            rotation 0.03751316801600411 -0.03220734498009043 -0.998776976684353 1.0359040335301771e-05
             children [
               USE WHEEL
             ]
@@ -94,5 +144,14 @@ Robot {
   ]
   name "EBO"
   model "EBOv2"
-  controller "<extern>"
+  boundingObject Pose {
+    translation 0 0 0.01
+    children [
+      USE Base
+    ]
+  }
+  physics Physics {
+    mass 2
+  }
+  controller "test_controller"
 }
