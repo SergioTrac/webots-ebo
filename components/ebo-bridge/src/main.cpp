@@ -81,8 +81,17 @@
 #include "specificmonitor.h"
 #include "commonbehaviorI.h"
 
+#include <batterystatusI.h>
+#include <camerasimpleI.h>
 #include <differentialrobotI.h>
+#include <emergencystopI.h>
+#include <emotionalmotorI.h>
+#include <ledarrayI.h>
+#include <laserI.h>
+#include <rgbsensorI.h>
+#include <speechI.h>
 
+#include <GenericBase.h>
 #include <GenericBase.h>
 
 
@@ -131,11 +140,59 @@ int ::EboBridge::run(int argc, char* argv[])
 
 	int status=EXIT_SUCCESS;
 
+	RoboCompEmergencyStopPub::EmergencyStopPubPrxPtr emergencystoppub_pubproxy;
 
 	string proxy, tmp;
 	initialize();
 
-	tprx = std::tuple<>();
+	IceStorm::TopicManagerPrxPtr topicManager;
+	try
+	{
+		topicManager = topicManager = Ice::checkedCast<IceStorm::TopicManagerPrx>(communicator()->propertyToProxy("TopicManager.Proxy"));
+		if (!topicManager)
+		{
+		    cout << "[" << PROGRAM_NAME << "]: TopicManager.Proxy not defined in config file."<<endl;
+		    cout << "	 Config line example: TopicManager.Proxy=IceStorm/TopicManager:default -p 9999"<<endl;
+	        return EXIT_FAILURE;
+		}
+	}
+	catch (const Ice::Exception &ex)
+	{
+		cout << "[" << PROGRAM_NAME << "]: Exception: 'rcnode' not running: " << ex << endl;
+		return EXIT_FAILURE;
+	}
+	std::shared_ptr<IceStorm::TopicPrx> emergencystoppub_topic;
+
+	while (!emergencystoppub_topic)
+	{
+		try
+		{
+			emergencystoppub_topic = topicManager->retrieve("EmergencyStopPub");
+		}
+		catch (const IceStorm::NoSuchTopic&)
+		{
+			cout << "[" << PROGRAM_NAME << "]: ERROR retrieving EmergencyStopPub topic. \n";
+			try
+			{
+				emergencystoppub_topic = topicManager->create("EmergencyStopPub");
+			}
+			catch (const IceStorm::TopicExists&){
+				// Another client created the topic.
+				cout << "[" << PROGRAM_NAME << "]: ERROR publishing the EmergencyStopPub topic. It's possible that other component have created\n";
+			}
+		}
+		catch(const IceUtil::NullHandleException&)
+		{
+			cout << "[" << PROGRAM_NAME << "]: ERROR TopicManager is Null. Check that your configuration file contains an entry like:\n"<<
+			"\t\tTopicManager.Proxy=IceStorm/TopicManager:default -p <port>\n";
+			return EXIT_FAILURE;
+		}
+	}
+
+	auto emergencystoppub_pub = emergencystoppub_topic->getPublisher()->ice_oneway();
+	emergencystoppub_pubproxy = Ice::uncheckedCast<RoboCompEmergencyStopPub::EmergencyStopPubPrx>(emergencystoppub_pub);
+
+	tprx = std::make_tuple(emergencystoppub_pubproxy);
 	SpecificWorker *worker = new SpecificWorker(tprx, startup_check_flag);
 	//Monitor thread
 	SpecificMonitor *monitor = new SpecificMonitor(worker,communicator());
@@ -177,6 +234,42 @@ int ::EboBridge::run(int argc, char* argv[])
 		try
 		{
 			// Server adapter creation and publication
+			if (not GenericMonitor::configGetString(communicator(), prefix, "BatteryStatus.Endpoints", tmp, ""))
+			{
+				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy BatteryStatus";
+			}
+			Ice::ObjectAdapterPtr adapterBatteryStatus = communicator()->createObjectAdapterWithEndpoints("BatteryStatus", tmp);
+			auto batterystatus = std::make_shared<BatteryStatusI>(worker);
+			adapterBatteryStatus->add(batterystatus, Ice::stringToIdentity("batterystatus"));
+			adapterBatteryStatus->activate();
+			cout << "[" << PROGRAM_NAME << "]: BatteryStatus adapter created in port " << tmp << endl;
+		}
+		catch (const IceStorm::TopicExists&){
+			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for BatteryStatus\n";
+		}
+
+
+		try
+		{
+			// Server adapter creation and publication
+			if (not GenericMonitor::configGetString(communicator(), prefix, "CameraSimple.Endpoints", tmp, ""))
+			{
+				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy CameraSimple";
+			}
+			Ice::ObjectAdapterPtr adapterCameraSimple = communicator()->createObjectAdapterWithEndpoints("CameraSimple", tmp);
+			auto camerasimple = std::make_shared<CameraSimpleI>(worker);
+			adapterCameraSimple->add(camerasimple, Ice::stringToIdentity("camerasimple"));
+			adapterCameraSimple->activate();
+			cout << "[" << PROGRAM_NAME << "]: CameraSimple adapter created in port " << tmp << endl;
+		}
+		catch (const IceStorm::TopicExists&){
+			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for CameraSimple\n";
+		}
+
+
+		try
+		{
+			// Server adapter creation and publication
 			if (not GenericMonitor::configGetString(communicator(), prefix, "DifferentialRobot.Endpoints", tmp, ""))
 			{
 				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy DifferentialRobot";
@@ -189,6 +282,114 @@ int ::EboBridge::run(int argc, char* argv[])
 		}
 		catch (const IceStorm::TopicExists&){
 			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for DifferentialRobot\n";
+		}
+
+
+		try
+		{
+			// Server adapter creation and publication
+			if (not GenericMonitor::configGetString(communicator(), prefix, "EmergencyStop.Endpoints", tmp, ""))
+			{
+				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy EmergencyStop";
+			}
+			Ice::ObjectAdapterPtr adapterEmergencyStop = communicator()->createObjectAdapterWithEndpoints("EmergencyStop", tmp);
+			auto emergencystop = std::make_shared<EmergencyStopI>(worker);
+			adapterEmergencyStop->add(emergencystop, Ice::stringToIdentity("emergencystop"));
+			adapterEmergencyStop->activate();
+			cout << "[" << PROGRAM_NAME << "]: EmergencyStop adapter created in port " << tmp << endl;
+		}
+		catch (const IceStorm::TopicExists&){
+			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for EmergencyStop\n";
+		}
+
+
+		try
+		{
+			// Server adapter creation and publication
+			if (not GenericMonitor::configGetString(communicator(), prefix, "EmotionalMotor.Endpoints", tmp, ""))
+			{
+				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy EmotionalMotor";
+			}
+			Ice::ObjectAdapterPtr adapterEmotionalMotor = communicator()->createObjectAdapterWithEndpoints("EmotionalMotor", tmp);
+			auto emotionalmotor = std::make_shared<EmotionalMotorI>(worker);
+			adapterEmotionalMotor->add(emotionalmotor, Ice::stringToIdentity("emotionalmotor"));
+			adapterEmotionalMotor->activate();
+			cout << "[" << PROGRAM_NAME << "]: EmotionalMotor adapter created in port " << tmp << endl;
+		}
+		catch (const IceStorm::TopicExists&){
+			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for EmotionalMotor\n";
+		}
+
+
+		try
+		{
+			// Server adapter creation and publication
+			if (not GenericMonitor::configGetString(communicator(), prefix, "LEDArray.Endpoints", tmp, ""))
+			{
+				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy LEDArray";
+			}
+			Ice::ObjectAdapterPtr adapterLEDArray = communicator()->createObjectAdapterWithEndpoints("LEDArray", tmp);
+			auto ledarray = std::make_shared<LEDArrayI>(worker);
+			adapterLEDArray->add(ledarray, Ice::stringToIdentity("ledarray"));
+			adapterLEDArray->activate();
+			cout << "[" << PROGRAM_NAME << "]: LEDArray adapter created in port " << tmp << endl;
+		}
+		catch (const IceStorm::TopicExists&){
+			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for LEDArray\n";
+		}
+
+
+		try
+		{
+			// Server adapter creation and publication
+			if (not GenericMonitor::configGetString(communicator(), prefix, "Laser.Endpoints", tmp, ""))
+			{
+				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy Laser";
+			}
+			Ice::ObjectAdapterPtr adapterLaser = communicator()->createObjectAdapterWithEndpoints("Laser", tmp);
+			auto laser = std::make_shared<LaserI>(worker);
+			adapterLaser->add(laser, Ice::stringToIdentity("laser"));
+			adapterLaser->activate();
+			cout << "[" << PROGRAM_NAME << "]: Laser adapter created in port " << tmp << endl;
+		}
+		catch (const IceStorm::TopicExists&){
+			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for Laser\n";
+		}
+
+
+		try
+		{
+			// Server adapter creation and publication
+			if (not GenericMonitor::configGetString(communicator(), prefix, "RGBSensor.Endpoints", tmp, ""))
+			{
+				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy RGBSensor";
+			}
+			Ice::ObjectAdapterPtr adapterRGBSensor = communicator()->createObjectAdapterWithEndpoints("RGBSensor", tmp);
+			auto rgbsensor = std::make_shared<RGBSensorI>(worker);
+			adapterRGBSensor->add(rgbsensor, Ice::stringToIdentity("rgbsensor"));
+			adapterRGBSensor->activate();
+			cout << "[" << PROGRAM_NAME << "]: RGBSensor adapter created in port " << tmp << endl;
+		}
+		catch (const IceStorm::TopicExists&){
+			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for RGBSensor\n";
+		}
+
+
+		try
+		{
+			// Server adapter creation and publication
+			if (not GenericMonitor::configGetString(communicator(), prefix, "Speech.Endpoints", tmp, ""))
+			{
+				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy Speech";
+			}
+			Ice::ObjectAdapterPtr adapterSpeech = communicator()->createObjectAdapterWithEndpoints("Speech", tmp);
+			auto speech = std::make_shared<SpeechI>(worker);
+			adapterSpeech->add(speech, Ice::stringToIdentity("speech"));
+			adapterSpeech->activate();
+			cout << "[" << PROGRAM_NAME << "]: Speech adapter created in port " << tmp << endl;
+		}
+		catch (const IceStorm::TopicExists&){
+			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for Speech\n";
 		}
 
 

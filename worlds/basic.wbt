@@ -3,44 +3,852 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Parquetry.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.22340492569543072 -0.02514099122721873 -0.974401441775992 3.436290783926344
-  position 0.5664024567752588 -0.22485330946540777 0.4149933551483218
+  orientation -0.3793996320180021 -0.10065308972860085 0.9197417435088454 2.2971575776952915
+  position 0.45047082505076086 -0.5362262645425426 0.4804591719935416
 }
 TexturedBackground {
 }
+RectangleArena {
+  floorAppearance Parquetry {
+    type "light strip"
+  }
+  wallThickness 0.005
+  wallHeight 0.06
+}
 TexturedBackgroundLight {
 }
-RectangleArena {
-}
 Robot {
-  translation 8.429484103586554e-09 1.0844056745428823e-07 -0.005204930417389985
-  rotation 0.8915506797715111 -0.00037625807257740906 0.45292079200321445 2.4841558074499944e-05
+  translation 0.027717652993613166 -0.0008805881714950539 0.004179788158445441
+  rotation 0.012003514488437166 -0.9964906143925092 0.08283942942563872 0.0025731921694917797
   children [
     DEF Body Pose {
       translation 0 0 0.01
       children [
-        Camera {
-          translation 0.0607 -0.001 0.1663
-          rotation 0 1 0 0.95
+        DEF LIDAR_GROUP Group {
           children [
-            Shape {
-              appearance PBRAppearance {
-                roughness 0.1
-                metalness 0.9
-              }
-              geometry Cylinder {
-                height 0.01
-                radius 0.0073
-              }
+            DistanceSensor {
+              translation 0.121 0.089 0.016
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(4)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+            }
+            DistanceSensor {
+              translation 0.121 0.043 0.016
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(5)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+            }
+            DistanceSensor {
+              translation 0.121 0 0.016
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(6)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+            }
+            DistanceSensor {
+              translation 0.121 -0.047 0.016
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(7)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+            }
+            DistanceSensor {
+              translation 0.121 -0.091 0.016
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(8)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+            }
+            DistanceSensor {
+              translation 0.086 -0.116 0.016
+              rotation 0 0 1 -1.5707953071795862
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(9)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+              gaussianWidth 0.1
+            }
+            DistanceSensor {
+              translation 0.006 -0.116 0.016
+              rotation 0 0 1 -1.5707953071795862
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(10)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+              gaussianWidth 0.1
+            }
+            DistanceSensor {
+              translation -0.074 -0.116 0.016
+              rotation 0 0 1 -1.5707953071795862
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(11)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+              gaussianWidth 0.1
+            }
+            DistanceSensor {
+              translation 0.114 0 0.005
+              rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 2.09439
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "emergencyLidar"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+              gaussianWidth 0.1
+            }
+            DistanceSensor {
+              translation -0.108 -0.001 0.016
+              rotation 0 0 1 3.14159
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+              gaussianWidth 0.1
+            }
+            DistanceSensor {
+              translation 0.007 0.114 0.016
+              rotation 0 0 -1 -1.5707953071795862
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(2)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+              gaussianWidth 0.1
+            }
+            DistanceSensor {
+              translation -0.073 0.114 0.016
+              rotation 0 0 -1 -1.5707953071795862
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(1)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+              gaussianWidth 0.1
+            }
+            DistanceSensor {
+              translation 0.087 0.114 0.016
+              rotation 0 0 -1 -1.5707953071795862
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.002 0.02 0.018
+                  }
+                }
+              ]
+              name "lidar(3)"
+              lookupTable [
+                0 0 0
+                0.255 255 0
+              ]
+              type "laser"
+              aperture 0
+              gaussianWidth 0.1
             }
           ]
-          width 300
-          height 300
-          far 100
+        }
+        DEF LEDS_GROUP Group {
+          children [
+            LED {
+              translation -0.12 -0.030001 0.0199988
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+            }
+            LED {
+              translation -0.12 -0.06 0.0199988
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(1)"
+            }
+            LED {
+              translation -0.12 -0.09 0.0199988
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(2)"
+            }
+            LED {
+              translation -0.09 -0.125 0.02
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(3)"
+            }
+            LED {
+              translation -0.065 -0.128 0.0200002
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(4)"
+            }
+            LED {
+              translation -0.035 -0.128 0.0200004
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(5)"
+            }
+            LED {
+              translation -0.005 -0.128 0.0200006
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(6)"
+            }
+            LED {
+              translation 0.025 -0.128 0.0200008
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(7)"
+            }
+            LED {
+              translation 0.055 -0.128 0.020001
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(8)"
+            }
+            LED {
+              translation 0.085 -0.128 0.0200012
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(9)"
+            }
+            LED {
+              translation 0.132 -0.108 0.0200016
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(10)"
+            }
+            LED {
+              translation 0.132 -0.078 0.0200016
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(11)"
+            }
+            LED {
+              translation 0.132 -0.048 0.0200016
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(12)"
+            }
+            LED {
+              translation 0.132 -0.018 0.0200016
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(13)"
+            }
+            LED {
+              translation 0.132 0.012 0.0200016
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(14)"
+            }
+            LED {
+              translation 0.132 0.042 0.0200016
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(15)"
+            }
+            LED {
+              translation 0.132 0.072 0.0200016
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(16)"
+            }
+            LED {
+              translation 0.122 0.123 0.0200015
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(17)"
+            }
+            LED {
+              translation 0.085 0.123 0.0200015
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(18)"
+            }
+            LED {
+              translation 0.055 0.123 0.0200015
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(19)"
+            }
+            LED {
+              translation 0.025 0.123 0.0200015
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(20)"
+            }
+            LED {
+              translation -0.005 0.123 0.0200015
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(21)"
+            }
+            LED {
+              translation -0.035 0.123 0.0200015
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(22)"
+            }
+            LED {
+              translation -0.065 0.123 0.0200015
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(23)"
+            }
+            LED {
+              translation -0.11 0.103 0.0200012
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 1 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  radius 1
+                }
+              ]
+              name "led(24)"
+            }
+            LED {
+              translation -0.12 0.062 0.0200011
+              rotation 6.247492484361515e-07 0.707106281186034 -0.7071072811864317 3.1415853071795863
+              children [
+                SpotLight {
+                  attenuation 0 0 1
+                  beamWidth 0
+                  color 0 0 0
+                  cutOffAngle 0.1
+                  direction 0 0 0
+                  intensity 0.1
+                  on FALSE
+                  radius 1
+                }
+              ]
+              name "led(25)"
+            }
+          ]
+        }
+        DEF wheel_back BallJoint {
+          jointParameters BallJointParameters {
+            position -0.00811686107743054
+            anchor -0.09 0 -0.005
+          }
+          jointParameters2 JointParameters {
+            position -0.010918100986270583
+          }
+          jointParameters3 JointParameters {
+            position 99.42888259148894
+            axis 0 1 0
+          }
+          endPoint Solid {
+            translation -0.09000551352947496 8.735168056115197e-09 -0.0050019381789199475
+            rotation -0.013500015409761297 -0.999907640933651 0.001568179338329368 1.1021021972187737
+            children [
+              DEF UNIVERSAL_WHEEL Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Sphere {
+                  radius 0.01
+                }
+              }
+            ]
+            name "solid(3)"
+            boundingObject USE UNIVERSAL_WHEEL
+            physics Physics {
+            }
+            linearVelocity 0.00017516014972122722 9.773623205617899e-08 0.002895373468240435
+            angularVelocity -9.770396223280703e-06 0.017518324388629495 6.555063430617124e-08
+          }
+        }
+        DEF wheel_front BallJoint {
+          jointParameters BallJointParameters {
+            position -0.008597753550602117
+            anchor 0.1 0 -0.005
+          }
+          jointParameters2 JointParameters {
+            position -0.05968297198290527
+          }
+          jointParameters3 JointParameters {
+            position 101.40277670460164
+            axis 0 1 0
+          }
+          endPoint Solid {
+            translation 0.09999430469991022 -1.7130099895122305e-07 -0.005002020658851886
+            rotation -0.07078036589218023 0.9968530527635713 -0.035694971636315846 0.8747015333147139
+            children [
+              DEF UNIVERSAL_WHEEL Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Sphere {
+                  radius 0.01
+                }
+              }
+            ]
+            name "solid(2)"
+            boundingObject USE UNIVERSAL_WHEEL
+            physics Physics {
+            }
+            linearVelocity 0.00018600874875524534 1.1225909281231562e-07 -0.0005578932703329553
+            angularVelocity -1.1293870769811835e-05 0.018603113375995767 -1.1001331825195983e-06
+          }
+        }
+        Camera {
+          translation 0.0607 -0.001 0.1663
+          rotation 0 1 0 -0.620795307179586
+          children [
+            Pose {
+              rotation 0 1 0 1.5708
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    roughness 0.1
+                    metalness 0.9
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.0073
+                  }
+                }
+              ]
+            }
+          ]
+          fieldOfView 2.04
+          width 3296
+          height 2512
+          far 1000
           lens Lens {
           }
         }
@@ -69,7 +877,9 @@ Robot {
         }
         DEF wheel_right HingeJoint {
           jointParameters HingeJointParameters {
-            position -3.6157621918149865e-07
+            position 122.58146056652498
+            axis 0 1 0
+            anchor -9.092519999999895e-07 -0.07999998763551178 0.010019798720924688
           }
           device [
             RotationalMotor {
@@ -77,8 +887,8 @@ Robot {
             }
           ]
           endPoint Solid {
-            translation -9.059162394247299e-07 -0.07999999315235301 1.9591285595879448e-05
-            rotation -0.03803774102644018 -0.033423253768209364 -0.9987171853758958 9.978972887112456e-06
+            translation -8.978750737658314e-07 -0.08000001165951812 0.010019990197353924
+            rotation -0.020987353400536098 0.7069494295812516 -0.7069526398649233 -3.099638395942979
             children [
               DEF WHEEL Shape {
                 appearance PBRAppearance {
@@ -95,11 +905,15 @@ Robot {
             boundingObject USE WHEEL
             physics DEF WHEEL_PhYSICS Physics {
             }
+            linearVelocity 0.0004536931654277452 2.614846642271434e-07 0.0012973592869131353
+            angularVelocity -1.0460497524786385e-05 0.018160404133466156 3.9801185377008736e-08
           }
         }
         DEF wheel_left HingeJoint {
           jointParameters HingeJointParameters {
-            position 3.769892281228321e-07
+            position 122.58146534066952
+            axis 0 1 0
+            anchor 7.207369999999995e-07 0.0799999876424674 0.010015098711698348
           }
           device [
             RotationalMotor {
@@ -107,14 +921,16 @@ Robot {
             }
           ]
           endPoint Solid {
-            translation 7.240738271020264e-07 0.07999999985454036 1.493617597987411e-05
-            rotation 0.03751316801600411 -0.03220734498009043 -0.998776976684353 1.0359040335301771e-05
+            translation 7.320258881958737e-07 0.0800000114674744 0.01001528869110731
+            rotation -0.02098915176238941 0.7069502229545037 -0.7069517931039379 -3.0996352412485115
             children [
               USE WHEEL
             ]
             name "solid(1)"
             boundingObject USE WHEEL
             physics USE WHEEL_PhYSICS
+            linearVelocity 0.00045369246958803887 2.614850324836991e-07 0.001296267669435028
+            angularVelocity -1.0460496197496008e-05 0.018160404098742845 3.9803220113341273e-08
           }
         }
         DEF Carcasa Shape {
@@ -147,11 +963,18 @@ Robot {
   boundingObject Pose {
     translation 0 0 0.01
     children [
-      USE Base
+      Mesh {
+        url [
+          "../resources/meshes/EBO_Collision.stl"
+        ]
+      }
     ]
   }
   physics Physics {
-    mass 2
+    density -1
+    mass 2.4
   }
   controller "test_controller"
+  linearVelocity 0.0017447729902299732 1.0055399688248226e-06 0.0011839841330251015
+  angularVelocity -1.0460469891056297e-05 0.018160420015895087 3.9779469633207827e-08
 }

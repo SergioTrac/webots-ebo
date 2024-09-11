@@ -39,6 +39,8 @@ public:
 	~SpecificWorker();
 	bool setParams(RoboCompCommonBehavior::ParameterList params);
 
+	RoboCompBatteryStatus::TBattery BatteryStatus_getBatteryState();
+	RoboCompCameraSimple::TImage CameraSimple_getImage();
 	void DifferentialRobot_correctOdometer(int x, int z, float alpha);
 	void DifferentialRobot_getBasePose(int &x, int &z, float &alpha);
 	void DifferentialRobot_getBaseState(RoboCompGenericBase::TBaseState &state);
@@ -47,6 +49,29 @@ public:
 	void DifferentialRobot_setOdometerPose(int x, int z, float alpha);
 	void DifferentialRobot_setSpeedBase(float adv, float rot);
 	void DifferentialRobot_stopBase();
+	bool EmergencyStop_isEmergency();
+	void EmotionalMotor_expressAnger();
+	void EmotionalMotor_expressDisgust();
+	void EmotionalMotor_expressFear();
+	void EmotionalMotor_expressJoy();
+	void EmotionalMotor_expressSadness();
+	void EmotionalMotor_expressSurprise();
+	void EmotionalMotor_isanybodythere(bool isAny);
+	void EmotionalMotor_listening(bool setListening);
+	void EmotionalMotor_pupposition(float x, float y);
+	void EmotionalMotor_talking(bool setTalk);
+	RoboCompLEDArray::PixelArray LEDArray_getLEDArray();
+	RoboCompLEDArray::byte LEDArray_setLEDArray(RoboCompLEDArray::PixelArray pixelArray);
+	RoboCompLaser::TLaserData Laser_getLaserAndBStateData(RoboCompGenericBase::TBaseState &bState);
+	RoboCompLaser::LaserConfData Laser_getLaserConfData();
+	RoboCompLaser::TLaserData Laser_getLaserData();
+	float RGBSensor_getLux();
+	RoboCompRGBSensor::RGBPixel RGBSensor_getRGBPixel();
+	RoboCompRGBSensor::RGBPixelRAW RGBSensor_getRGBPixelRAW();
+	float RGBSensor_getTemperature();
+	void RGBSensor_setLight(RoboCompRGBSensor::byte percentageLight);
+	bool Speech_isBusy();
+	bool Speech_say(std::string text, bool overwrite);
 
 
 public slots:

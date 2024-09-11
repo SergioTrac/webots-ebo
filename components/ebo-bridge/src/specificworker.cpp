@@ -122,6 +122,24 @@ int SpecificWorker::startup_check()
 }
 
 
+RoboCompBatteryStatus::TBattery SpecificWorker::BatteryStatus_getBatteryState()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+RoboCompCameraSimple::TImage SpecificWorker::CameraSimple_getImage()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
 void SpecificWorker::DifferentialRobot_correctOdometer(int x, int z, float alpha)
 {
 #ifdef HIBERNATION_ENABLED
@@ -194,9 +212,242 @@ void SpecificWorker::DifferentialRobot_stopBase()
 
 }
 
+bool SpecificWorker::EmergencyStop_isEmergency()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
 
+}
+
+void SpecificWorker::EmotionalMotor_expressAnger()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+void SpecificWorker::EmotionalMotor_expressDisgust()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+void SpecificWorker::EmotionalMotor_expressFear()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+void SpecificWorker::EmotionalMotor_expressJoy()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+void SpecificWorker::EmotionalMotor_expressSadness()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+void SpecificWorker::EmotionalMotor_expressSurprise()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+void SpecificWorker::EmotionalMotor_isanybodythere(bool isAny)
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+void SpecificWorker::EmotionalMotor_listening(bool setListening)
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+void SpecificWorker::EmotionalMotor_pupposition(float x, float y)
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+void SpecificWorker::EmotionalMotor_talking(bool setTalk)
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+RoboCompLEDArray::PixelArray SpecificWorker::LEDArray_getLEDArray()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+RoboCompLEDArray::byte SpecificWorker::LEDArray_setLEDArray(RoboCompLEDArray::PixelArray pixelArray)
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+RoboCompLaser::TLaserData SpecificWorker::Laser_getLaserAndBStateData(RoboCompGenericBase::TBaseState &bState)
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+RoboCompLaser::LaserConfData SpecificWorker::Laser_getLaserConfData()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+RoboCompLaser::TLaserData SpecificWorker::Laser_getLaserData()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+float SpecificWorker::RGBSensor_getLux()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+RoboCompRGBSensor::RGBPixel SpecificWorker::RGBSensor_getRGBPixel()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+RoboCompRGBSensor::RGBPixelRAW SpecificWorker::RGBSensor_getRGBPixelRAW()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+float SpecificWorker::RGBSensor_getTemperature()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+void SpecificWorker::RGBSensor_setLight(RoboCompRGBSensor::byte percentageLight)
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+bool SpecificWorker::Speech_isBusy()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+bool SpecificWorker::Speech_say(std::string text, bool overwrite)
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+//implementCODE
+
+}
+
+
+
+/**************************************/
+// From the RoboCompEmergencyStopPub you can publish calling this methods:
+// this->emergencystoppub_pubproxy->emergencyStop(...)
+
+/**************************************/
+// From the RoboCompBatteryStatus you can use this types:
+// RoboCompBatteryStatus::TBattery
+
+/**************************************/
+// From the RoboCompCameraSimple you can use this types:
+// RoboCompCameraSimple::TImage
 
 /**************************************/
 // From the RoboCompDifferentialRobot you can use this types:
 // RoboCompDifferentialRobot::TMechParams
+
+/**************************************/
+// From the RoboCompLEDArray you can use this types:
+// RoboCompLEDArray::Pixel
+
+/**************************************/
+// From the RoboCompLaser you can use this types:
+// RoboCompLaser::LaserConfData
+// RoboCompLaser::TData
+
+/**************************************/
+// From the RoboCompRGBSensor you can use this types:
+// RoboCompRGBSensor::RGBPixel
+// RoboCompRGBSensor::RGBPixelRAW
 

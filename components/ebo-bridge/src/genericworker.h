@@ -29,15 +29,24 @@
 #include <QString>
 #include <functional>
 
+#include <BatteryStatus.h>
+#include <CameraSimple.h>
 #include <DifferentialRobot.h>
+#include <EmergencyStop.h>
+#include <EmergencyStopPub.h>
+#include <EmotionalMotor.h>
 #include <GenericBase.h>
+#include <LEDArray.h>
+#include <Laser.h>
+#include <RGBSensor.h>
+#include <Speech.h>
 
 
 #define CHECK_PERIOD 5000
 #define BASIC_PERIOD 100
 
 
-using TuplePrx = std::tuple<>;
+using TuplePrx = std::tuple<RoboCompEmergencyStopPub::EmergencyStopPubPrxPtr>;
 
 
 class GenericWorker : public QObject
@@ -58,7 +67,10 @@ public:
 	atomic_bool hibernation = false;
 
 
+	RoboCompEmergencyStopPub::EmergencyStopPubPrxPtr emergencystoppub_pubproxy;
 
+	virtual RoboCompBatteryStatus::TBattery BatteryStatus_getBatteryState() = 0;
+	virtual RoboCompCameraSimple::TImage CameraSimple_getImage() = 0;
 	virtual void DifferentialRobot_correctOdometer(int x, int z, float alpha) = 0;
 	virtual void DifferentialRobot_getBasePose(int &x, int &z, float &alpha) = 0;
 	virtual void DifferentialRobot_getBaseState(RoboCompGenericBase::TBaseState &state) = 0;
@@ -67,6 +79,29 @@ public:
 	virtual void DifferentialRobot_setOdometerPose(int x, int z, float alpha) = 0;
 	virtual void DifferentialRobot_setSpeedBase(float adv, float rot) = 0;
 	virtual void DifferentialRobot_stopBase() = 0;
+	virtual bool EmergencyStop_isEmergency() = 0;
+	virtual void EmotionalMotor_expressAnger() = 0;
+	virtual void EmotionalMotor_expressDisgust() = 0;
+	virtual void EmotionalMotor_expressFear() = 0;
+	virtual void EmotionalMotor_expressJoy() = 0;
+	virtual void EmotionalMotor_expressSadness() = 0;
+	virtual void EmotionalMotor_expressSurprise() = 0;
+	virtual void EmotionalMotor_isanybodythere(bool isAny) = 0;
+	virtual void EmotionalMotor_listening(bool setListening) = 0;
+	virtual void EmotionalMotor_pupposition(float x, float y) = 0;
+	virtual void EmotionalMotor_talking(bool setTalk) = 0;
+	virtual RoboCompLEDArray::PixelArray LEDArray_getLEDArray() = 0;
+	virtual RoboCompLEDArray::byte LEDArray_setLEDArray(RoboCompLEDArray::PixelArray pixelArray) = 0;
+	virtual RoboCompLaser::TLaserData Laser_getLaserAndBStateData(RoboCompGenericBase::TBaseState &bState) = 0;
+	virtual RoboCompLaser::LaserConfData Laser_getLaserConfData() = 0;
+	virtual RoboCompLaser::TLaserData Laser_getLaserData() = 0;
+	virtual float RGBSensor_getLux() = 0;
+	virtual RoboCompRGBSensor::RGBPixel RGBSensor_getRGBPixel() = 0;
+	virtual RoboCompRGBSensor::RGBPixelRAW RGBSensor_getRGBPixelRAW() = 0;
+	virtual float RGBSensor_getTemperature() = 0;
+	virtual void RGBSensor_setLight(RoboCompRGBSensor::byte percentageLight) = 0;
+	virtual bool Speech_isBusy() = 0;
+	virtual bool Speech_say(std::string text, bool overwrite) = 0;
 
 protected:
 

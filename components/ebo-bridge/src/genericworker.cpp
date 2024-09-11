@@ -24,6 +24,7 @@ GenericWorker::GenericWorker(TuplePrx tprx) : QObject()
 {
 
 	
+	emergencystoppub_pubproxy = std::get<0>(tprx);
 
 	states.resize(STATES::NumberOfStates);
 	states[STATES::Initialize] = new GRAFCETStep("Initialize", BASIC_PERIOD, nullptr, std::bind(&GenericWorker::initialize, this));
