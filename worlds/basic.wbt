@@ -8,8 +8,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.3793996320180021 -0.10065308972860085 0.9197417435088454 2.2971575776952915
-  position 0.45047082505076086 -0.5362262645425426 0.4804591719935416
+  orientation 0.3043849708914303 0.12996289819361417 -0.9436415816339059 2.999692164461638
+  position 1.2972868764953114 -0.021374343280920742 0.8547409937205278
 }
 TexturedBackground {
 }
@@ -23,8 +23,8 @@ RectangleArena {
 TexturedBackgroundLight {
 }
 Robot {
-  translation 0.027717652993613166 -0.0008805881714950539 0.004179788158445441
-  rotation 0.012003514488437166 -0.9964906143925092 0.08283942942563872 0.0025731921694917797
+  translation 0.052931 -0.000875199 0.00434942
+  rotation 0.12524317265100282 0.4180870238235861 0.8997318423923026 0.0002368707825278184
   children [
     DEF Body Pose {
       translation 0 0 0.01
@@ -344,10 +344,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -359,10 +360,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -375,10 +377,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -391,10 +394,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -407,10 +411,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -423,10 +428,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -439,10 +445,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -455,10 +462,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -471,10 +479,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -487,10 +496,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -503,10 +513,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -519,10 +530,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -535,10 +547,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -551,10 +564,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -567,10 +581,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -583,10 +598,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -599,10 +615,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -615,10 +632,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -631,10 +649,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -647,10 +666,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -663,10 +683,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -679,10 +700,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -695,10 +717,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -711,10 +734,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -727,10 +751,11 @@ Robot {
                 SpotLight {
                   attenuation 0 0 1
                   beamWidth 0
-                  color 1 0 0
+                  color 0 0 0
                   cutOffAngle 0.1
                   direction 0 0 0
                   intensity 0.1
+                  on FALSE
                   radius 1
                 }
               ]
@@ -757,19 +782,19 @@ Robot {
         }
         DEF wheel_back BallJoint {
           jointParameters BallJointParameters {
-            position -0.00811686107743054
+            position -0.007694443371419334
             anchor -0.09 0 -0.005
           }
           jointParameters2 JointParameters {
-            position -0.010918100986270583
+            position -0.010956741404780394
           }
           jointParameters3 JointParameters {
-            position 99.42888259148894
+            position 114.91687618188165
             axis 0 1 0
           }
           endPoint Solid {
-            translation -0.09000551352947496 8.735168056115197e-09 -0.0050019381789199475
-            rotation -0.013500015409761297 -0.999907640933651 0.001568179338329368 1.1021021972187737
+            translation -0.0899950424036611 -1.909148276062118e-08 -0.004996905247157509
+            rotation 0.001334395238145758 0.9999678702500394 -0.007904293576848747 1.8195944006811626
             children [
               DEF UNIVERSAL_WHEEL Shape {
                 appearance PBRAppearance {
@@ -786,25 +811,23 @@ Robot {
             boundingObject USE UNIVERSAL_WHEEL
             physics Physics {
             }
-            linearVelocity 0.00017516014972122722 9.773623205617899e-08 0.002895373468240435
-            angularVelocity -9.770396223280703e-06 0.017518324388629495 6.555063430617124e-08
           }
         }
         DEF wheel_front BallJoint {
           jointParameters BallJointParameters {
-            position -0.008597753550602117
+            position -0.00818924514340013
             anchor 0.1 0 -0.005
           }
           jointParameters2 JointParameters {
-            position -0.05968297198290527
+            position -0.05984629701675737
           }
           jointParameters3 JointParameters {
-            position 101.40277670460164
+            position 116.89086666360889
             axis 0 1 0
           }
           endPoint Solid {
-            translation 0.09999430469991022 -1.7130099895122305e-07 -0.005002020658851886
-            rotation -0.07078036589218023 0.9968530527635713 -0.035694971636315846 0.8747015333147139
+            translation 0.10000511434006454 5.173364905072947e-08 -0.004996776694449093
+            rotation 0.01509777151343249 0.9996122914521421 -0.023394958284335778 3.793354863937479
             children [
               DEF UNIVERSAL_WHEEL Shape {
                 appearance PBRAppearance {
@@ -821,8 +844,6 @@ Robot {
             boundingObject USE UNIVERSAL_WHEEL
             physics Physics {
             }
-            linearVelocity 0.00018600874875524534 1.1225909281231562e-07 -0.0005578932703329553
-            angularVelocity -1.1293870769811835e-05 0.018603113375995767 -1.1001331825195983e-06
           }
         }
         Camera {
@@ -877,7 +898,7 @@ Robot {
         }
         DEF wheel_right HingeJoint {
           jointParameters HingeJointParameters {
-            position 122.58146056652498
+            position 128.78734066256337
             axis 0 1 0
             anchor -9.092519999999895e-07 -0.07999998763551178 0.010019798720924688
           }
@@ -887,8 +908,8 @@ Robot {
             }
           ]
           endPoint Solid {
-            translation -8.978750737658314e-07 -0.08000001165951812 0.010019990197353924
-            rotation -0.020987353400536098 0.7069494295812516 -0.7069526398649233 -3.099638395942979
+            translation -9.126964386813957e-07 -0.08000001165951812 0.010019990504118023
+            rotation 0.0063458119483419 0.7070908019955281 -0.7070942853707963 3.1288871679857304
             children [
               DEF WHEEL Shape {
                 appearance PBRAppearance {
@@ -905,13 +926,11 @@ Robot {
             boundingObject USE WHEEL
             physics DEF WHEEL_PhYSICS Physics {
             }
-            linearVelocity 0.0004536931654277452 2.614846642271434e-07 0.0012973592869131353
-            angularVelocity -1.0460497524786385e-05 0.018160404133466156 3.9801185377008736e-08
           }
         }
         DEF wheel_left HingeJoint {
           jointParameters HingeJointParameters {
-            position 122.58146534066952
+            position 128.78734543662506
             axis 0 1 0
             anchor 7.207369999999995e-07 0.0799999876424674 0.010015098711698348
           }
@@ -921,16 +940,14 @@ Robot {
             }
           ]
           endPoint Solid {
-            translation 7.320258881958737e-07 0.0800000114674744 0.01001528869110731
-            rotation -0.02098915176238941 0.7069502229545037 -0.7069517931039379 -3.0996352412485115
+            translation 7.173203984319008e-07 0.0800000114674744 0.010015288995543327
+            rotation 0.006343982331038882 0.7070916252406573 -0.7070934785463017 3.1288902601387534
             children [
               USE WHEEL
             ]
             name "solid(1)"
             boundingObject USE WHEEL
             physics USE WHEEL_PhYSICS
-            linearVelocity 0.00045369246958803887 2.614850324836991e-07 0.001296267669435028
-            angularVelocity -1.0460496197496008e-05 0.018160404098742845 3.9803220113341273e-08
           }
         }
         DEF Carcasa Shape {
@@ -974,7 +991,5 @@ Robot {
     density -1
     mass 2.4
   }
-  controller "test_controller"
-  linearVelocity 0.0017447729902299732 1.0055399688248226e-06 0.0011839841330251015
-  angularVelocity -1.0460469891056297e-05 0.018160420015895087 3.9779469633207827e-08
+  controller "<extern>"
 }

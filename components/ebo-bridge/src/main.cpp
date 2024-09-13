@@ -86,9 +86,7 @@
 #include <differentialrobotI.h>
 #include <emergencystopI.h>
 #include <emotionalmotorI.h>
-#include <ledarrayI.h>
 #include <laserI.h>
-#include <rgbsensorI.h>
 #include <speechI.h>
 
 #include <GenericBase.h>
@@ -324,24 +322,6 @@ int ::EboBridge::run(int argc, char* argv[])
 		try
 		{
 			// Server adapter creation and publication
-			if (not GenericMonitor::configGetString(communicator(), prefix, "LEDArray.Endpoints", tmp, ""))
-			{
-				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy LEDArray";
-			}
-			Ice::ObjectAdapterPtr adapterLEDArray = communicator()->createObjectAdapterWithEndpoints("LEDArray", tmp);
-			auto ledarray = std::make_shared<LEDArrayI>(worker);
-			adapterLEDArray->add(ledarray, Ice::stringToIdentity("ledarray"));
-			adapterLEDArray->activate();
-			cout << "[" << PROGRAM_NAME << "]: LEDArray adapter created in port " << tmp << endl;
-		}
-		catch (const IceStorm::TopicExists&){
-			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for LEDArray\n";
-		}
-
-
-		try
-		{
-			// Server adapter creation and publication
 			if (not GenericMonitor::configGetString(communicator(), prefix, "Laser.Endpoints", tmp, ""))
 			{
 				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy Laser";
@@ -354,24 +334,6 @@ int ::EboBridge::run(int argc, char* argv[])
 		}
 		catch (const IceStorm::TopicExists&){
 			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for Laser\n";
-		}
-
-
-		try
-		{
-			// Server adapter creation and publication
-			if (not GenericMonitor::configGetString(communicator(), prefix, "RGBSensor.Endpoints", tmp, ""))
-			{
-				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy RGBSensor";
-			}
-			Ice::ObjectAdapterPtr adapterRGBSensor = communicator()->createObjectAdapterWithEndpoints("RGBSensor", tmp);
-			auto rgbsensor = std::make_shared<RGBSensorI>(worker);
-			adapterRGBSensor->add(rgbsensor, Ice::stringToIdentity("rgbsensor"));
-			adapterRGBSensor->activate();
-			cout << "[" << PROGRAM_NAME << "]: RGBSensor adapter created in port " << tmp << endl;
-		}
-		catch (const IceStorm::TopicExists&){
-			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for RGBSensor\n";
 		}
 
 

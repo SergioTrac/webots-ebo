@@ -23,11 +23,7 @@
 */
 SpecificWorker::SpecificWorker(TuplePrx tprx, bool startup_check) : GenericWorker(tprx)
 {
-	this->startup_check_flag = startup_check;
-	// Uncomment if there's too many debug messages
-	// but it removes the possibility to see the messages
-	// shown in the console with qDebug()
-//	QLoggingCategory::setFilterRules("*.debug=false\n");
+    this->startup_check_flag = startup_check;
 }
 
 /**
@@ -35,115 +31,130 @@ SpecificWorker::SpecificWorker(TuplePrx tprx, bool startup_check) : GenericWorke
 */
 SpecificWorker::~SpecificWorker()
 {
-	std::cout << "Destroying SpecificWorker" << std::endl;
+    std::cout << "Destroying SpecificWorker" << std::endl;
 }
 
 bool SpecificWorker::setParams(RoboCompCommonBehavior::ParameterList params)
 {
-//	THE FOLLOWING IS JUST AN EXAMPLE
-//	To use innerModelPath parameter you should uncomment specificmonitor.cpp readConfig method content
-//	try
-//	{
-//		RoboCompCommonBehavior::Parameter par = params.at("InnerModelPath");
-//		std::string innermodel_path = par.value;
-//		innerModel = std::make_shared(innermodel_path);
-//	}
-//	catch(const std::exception &e) { qFatal("Error reading config params"); }
-	
-
-	return true;
+    return true;
 }
 
 void SpecificWorker::initialize()
 {
-	std::cout << "Initialize worker" << std::endl;
-	if(this->startup_check_flag)
-	{
-		this->startup_check();
-	}
-	else
-	{
-
-		#ifdef HIBERNATION_ENABLED
-			hibernationChecker.start(500);
-		#endif
-
-		this->setPeriod(STATES::Compute, 100);
-		//this->setPeriod(STATES::Emergency, 500);
-
-	}
+    std::cout << "Initialize worker" << std::endl;
+    if(this->startup_check_flag)
+    {
+        this->startup_check();
+    }
+    else
+    {
+#ifdef HIBERNATION_ENABLED
+        hibernationChecker.start(500);
+#endif
+        initializeRobot();
+    }
 
 }
 
+void SpecificWorker::initializeRobot(){
+    robot = new webots::Robot();
+
+    camera = robot->getCamera("camera");
+    if (camera) camera->enable(this->getPeriod(STATES::Compute)); else std::cout << "Cámara no encontrada.";
+
+    const char* motorNames[2] = {"motor_right", "motor_left"};
+    for (size_t i = 0; i < motors.size(); ++i)
+    {
+        motors[i] = robot->getMotor(motorNames[i]);
+        motors[i]->setPosition(INFINITY);                   // Velocity mode
+        motors[i]->setVelocity(0);                      // Initial velocity
+    }
+
+    robot->step(this->getPeriod(STATES::Initialize));
+}
+
+
 void SpecificWorker::compute()
 {
-    std::cout << "Compute worker" << std::endl;
-	//computeCODE
-	//QMutexLocker locker(mutex);
-	//try
-	//{
-	//  camera_proxy->getYImage(0,img, cState, bState);
-    //    if (img.empty())
-    //        emit goToEmergency()
-	//  memcpy(image_gray.data, &img[0], m_width*m_height*sizeof(uchar));
-	//  searchTags(image_gray);
-	//}
-	//catch(const Ice::Exception &e)
-	//{
-	//  std::cout << "Error reading from Camera" << e << std::endl;
-	//}
-	
-	
+    receivingImageData();
+
+    robot->step(this->getPeriod(STATES::Compute));
 }
 
 void SpecificWorker::emergency()
 {
     std::cout << "Emergency worker" << std::endl;
-	//computeCODE
-	//
-	//if (SUCCESSFUL)
-    //  emmit goToRestore()
+    for(auto motor: motors) motor->setVelocity(0);
 }
 
 //Execute one when exiting to emergencyState
 void SpecificWorker::restore()
 {
     std::cout << "Restore worker" << std::endl;
-	//computeCODE
-	//Restore emergency component
-
 }
 
 int SpecificWorker::startup_check()
 {
-	std::cout << "Startup check" << std::endl;
-	QTimer::singleShot(200, qApp, SLOT(quit()));
-	return 0;
+    std::cout << "Startup check" << std::endl;
+    QTimer::singleShot(200, qApp, SLOT(quit()));
+    return 0;
 }
 
+#pragma region Battery
 
 RoboCompBatteryStatus::TBattery SpecificWorker::BatteryStatus_getBatteryState()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
 }
+
+#pragma endregion
+
+#pragma region CameraSimple
 
 RoboCompCameraSimple::TImage SpecificWorker::CameraSimple_getImage()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
-//implementCODE
-
+    return imgData;
 }
+
+void SpecificWorker::receivingImageData() {
+
+    // Obtener el buffer de imagen
+    const unsigned char* image = camera->getImage();
+    if (!image) {
+        throw std::runtime_error("Error al obtener la imagen de la cámara.");
+    }
+
+    // Configurar los campos de la estructura TImage
+    imgData.compressed = false;  // Asumimos que la imagen no está comprimida
+    imgData.width = camera->getWidth();
+    imgData.height = camera->getHeight();
+    imgData.depth = 3;  // Asumimos una imagen RGB con 3 bytes por píxel (8 bits por canal)
+
+    // Crear un vector de bytes para almacenar los datos de la imagen
+    const int totalPixels = imgData.width * imgData.height * imgData.depth;
+    imgData.image.resize(totalPixels);
+
+    // Copiar la imagen de la cámara a imgData.image (asumiendo formato RGB)
+    for (int i = 0; i < totalPixels; i++) {
+        imgData.image[i] = image[i];  // Copiamos el buffer crudo de la imagen
+    }
+}
+
+#pragma endregion
+
+#pragma region DifferentialRobot
 
 void SpecificWorker::DifferentialRobot_correctOdometer(int x, int z, float alpha)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -152,7 +163,7 @@ void SpecificWorker::DifferentialRobot_correctOdometer(int x, int z, float alpha
 void SpecificWorker::DifferentialRobot_getBasePose(int &x, int &z, float &alpha)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -161,7 +172,7 @@ void SpecificWorker::DifferentialRobot_getBasePose(int &x, int &z, float &alpha)
 void SpecificWorker::DifferentialRobot_getBaseState(RoboCompGenericBase::TBaseState &state)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -170,7 +181,7 @@ void SpecificWorker::DifferentialRobot_getBaseState(RoboCompGenericBase::TBaseSt
 void SpecificWorker::DifferentialRobot_resetOdometer()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -179,7 +190,7 @@ void SpecificWorker::DifferentialRobot_resetOdometer()
 void SpecificWorker::DifferentialRobot_setOdometer(RoboCompGenericBase::TBaseState state)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -188,7 +199,7 @@ void SpecificWorker::DifferentialRobot_setOdometer(RoboCompGenericBase::TBaseSta
 void SpecificWorker::DifferentialRobot_setOdometerPose(int x, int z, float alpha)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -197,7 +208,7 @@ void SpecificWorker::DifferentialRobot_setOdometerPose(int x, int z, float alpha
 void SpecificWorker::DifferentialRobot_setSpeedBase(float adv, float rot)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -206,25 +217,32 @@ void SpecificWorker::DifferentialRobot_setSpeedBase(float adv, float rot)
 void SpecificWorker::DifferentialRobot_stopBase()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
 }
+
+#pragma endregion
+
+#pragma region EmergencyStop
 
 bool SpecificWorker::EmergencyStop_isEmergency()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
 }
 
+#pragma endregion
+
+#pragma region EmotionalRobot
 void SpecificWorker::EmotionalMotor_expressAnger()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -233,7 +251,7 @@ void SpecificWorker::EmotionalMotor_expressAnger()
 void SpecificWorker::EmotionalMotor_expressDisgust()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -242,7 +260,7 @@ void SpecificWorker::EmotionalMotor_expressDisgust()
 void SpecificWorker::EmotionalMotor_expressFear()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -251,7 +269,7 @@ void SpecificWorker::EmotionalMotor_expressFear()
 void SpecificWorker::EmotionalMotor_expressJoy()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -260,7 +278,7 @@ void SpecificWorker::EmotionalMotor_expressJoy()
 void SpecificWorker::EmotionalMotor_expressSadness()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -269,7 +287,7 @@ void SpecificWorker::EmotionalMotor_expressSadness()
 void SpecificWorker::EmotionalMotor_expressSurprise()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -278,7 +296,7 @@ void SpecificWorker::EmotionalMotor_expressSurprise()
 void SpecificWorker::EmotionalMotor_isanybodythere(bool isAny)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -287,7 +305,7 @@ void SpecificWorker::EmotionalMotor_isanybodythere(bool isAny)
 void SpecificWorker::EmotionalMotor_listening(bool setListening)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -296,7 +314,7 @@ void SpecificWorker::EmotionalMotor_listening(bool setListening)
 void SpecificWorker::EmotionalMotor_pupposition(float x, float y)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -305,34 +323,20 @@ void SpecificWorker::EmotionalMotor_pupposition(float x, float y)
 void SpecificWorker::EmotionalMotor_talking(bool setTalk)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
 }
 
-RoboCompLEDArray::PixelArray SpecificWorker::LEDArray_getLEDArray()
-{
-#ifdef HIBERNATION_ENABLED
-	hibernation = true;
-#endif
-//implementCODE
+#pragma endregion
 
-}
-
-RoboCompLEDArray::byte SpecificWorker::LEDArray_setLEDArray(RoboCompLEDArray::PixelArray pixelArray)
-{
-#ifdef HIBERNATION_ENABLED
-	hibernation = true;
-#endif
-//implementCODE
-
-}
+#pragma region Laser
 
 RoboCompLaser::TLaserData SpecificWorker::Laser_getLaserAndBStateData(RoboCompGenericBase::TBaseState &bState)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -341,7 +345,7 @@ RoboCompLaser::TLaserData SpecificWorker::Laser_getLaserAndBStateData(RoboCompGe
 RoboCompLaser::LaserConfData SpecificWorker::Laser_getLaserConfData()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -350,61 +354,19 @@ RoboCompLaser::LaserConfData SpecificWorker::Laser_getLaserConfData()
 RoboCompLaser::TLaserData SpecificWorker::Laser_getLaserData()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
 }
 
-float SpecificWorker::RGBSensor_getLux()
-{
-#ifdef HIBERNATION_ENABLED
-	hibernation = true;
-#endif
-//implementCODE
+#pragma endregion
 
-}
-
-RoboCompRGBSensor::RGBPixel SpecificWorker::RGBSensor_getRGBPixel()
-{
-#ifdef HIBERNATION_ENABLED
-	hibernation = true;
-#endif
-//implementCODE
-
-}
-
-RoboCompRGBSensor::RGBPixelRAW SpecificWorker::RGBSensor_getRGBPixelRAW()
-{
-#ifdef HIBERNATION_ENABLED
-	hibernation = true;
-#endif
-//implementCODE
-
-}
-
-float SpecificWorker::RGBSensor_getTemperature()
-{
-#ifdef HIBERNATION_ENABLED
-	hibernation = true;
-#endif
-//implementCODE
-
-}
-
-void SpecificWorker::RGBSensor_setLight(RoboCompRGBSensor::byte percentageLight)
-{
-#ifdef HIBERNATION_ENABLED
-	hibernation = true;
-#endif
-//implementCODE
-
-}
-
+#pragma region Speech
 bool SpecificWorker::Speech_isBusy()
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
@@ -413,11 +375,13 @@ bool SpecificWorker::Speech_isBusy()
 bool SpecificWorker::Speech_say(std::string text, bool overwrite)
 {
 #ifdef HIBERNATION_ENABLED
-	hibernation = true;
+    hibernation = true;
 #endif
 //implementCODE
 
 }
+
+#pragma endregion
 
 
 
@@ -438,16 +402,7 @@ bool SpecificWorker::Speech_say(std::string text, bool overwrite)
 // RoboCompDifferentialRobot::TMechParams
 
 /**************************************/
-// From the RoboCompLEDArray you can use this types:
-// RoboCompLEDArray::Pixel
-
-/**************************************/
 // From the RoboCompLaser you can use this types:
 // RoboCompLaser::LaserConfData
 // RoboCompLaser::TData
-
-/**************************************/
-// From the RoboCompRGBSensor you can use this types:
-// RoboCompRGBSensor::RGBPixel
-// RoboCompRGBSensor::RGBPixelRAW
 
