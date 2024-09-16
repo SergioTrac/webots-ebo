@@ -31,7 +31,7 @@
 
 #include <array>
 #include <genericworker.h>
-#include <webots/Robot.hpp>
+#include <webots/Supervisor.hpp>
 #include <webots/Camera.hpp>
 #include <webots/Motor.hpp>
 
@@ -70,7 +70,7 @@ public:
     bool Speech_isBusy();
     bool Speech_say(std::string text, bool overwrite);
 
-    webots::Robot* robot;
+    webots::Supervisor* robot;
     webots::Camera* camera;
     std::array<webots::Motor*, 2> motors;
     RoboCompCameraSimple::TImage imgData;
@@ -86,6 +86,12 @@ private:
 
     void initializeRobot();
     void receivingImageData();
+
+    void printNotImplementedWarningMessage(string functionName);
+
+    void testMovement();
+
+    void printPosition();
 };
 
 #endif
