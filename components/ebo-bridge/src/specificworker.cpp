@@ -78,8 +78,6 @@ void SpecificWorker::compute()
 {
     receivingImageData();
 
-    testMovement();
-
     robot->step(this->getPeriod(STATES::Compute));
 }
 
