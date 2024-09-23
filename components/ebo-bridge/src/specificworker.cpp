@@ -59,15 +59,28 @@ void SpecificWorker::initialize()
 void SpecificWorker::initializeRobot(){
     robot = new webots::Supervisor();
 
+    // Camera
     camera = robot->getCamera("camera");
-    if (camera) camera->enable(this->getPeriod(STATES::Compute)); else std::cout << "Cámara no encontrada.";
+    if (camera) camera->enable(this->getPeriod(STATES::Compute)); else std::cout << "Cámara no encontrada." << std::endl;
 
+    // Motors
     const char* motorNames[2] = {"motor_right", "motor_left"};
     for (size_t i = 0; i < motors.size(); ++i)
     {
         motors[i] = robot->getMotor(motorNames[i]);
         motors[i]->setPosition(INFINITY);                   // Velocity mode
         motors[i]->setVelocity(0);                      // Initial velocity
+    }
+
+    // Lidars
+    for (int i=0; i<webotsLidars.size(); i++){
+        std::string lidar_name = (i == 0) ? "lidar" : "lidar(" + std::to_string(i) + ")";
+        webots::DistanceSensor* lidar = robot->getDistanceSensor(lidar_name);
+        if (lidar){
+            lidar->enable(this->getPeriod(STATES::Compute));
+            webotsLidars[i] = lidar;
+            robocompLidars.emplace_back();
+        } else std::cout << "Lidar: " << lidar_name << " no encontrado." << std::endl;
     }
 
     robot->step(this->getPeriod(STATES::Compute));
@@ -77,7 +90,8 @@ void SpecificWorker::initializeRobot(){
 void SpecificWorker::compute()
 {
     receivingImageData();
-
+    receivingLidarsData();
+    
     robot->step(this->getPeriod(STATES::Compute));
 }
 
@@ -379,8 +393,8 @@ RoboCompLaser::TLaserData SpecificWorker::Laser_getLaserData()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
 
+    return robocompLidars;
 }
 
 #pragma endregion
@@ -488,6 +502,25 @@ void SpecificWorker::printPosition()
     float alpha = 0.0;
     DifferentialRobot_getBasePose(x, z, alpha);
     std::cout << "Current position - x: " << x << ", z: " << z << ", alpha: " << alpha << std::endl;
+}
+
+void SpecificWorker::receivingLidarsData() {
+    for(int i=0; i < webotsLidars.size(); i++){
+        webots::DistanceSensor* lidar = webotsLidars[i];
+
+        RoboCompLaser::TData robocompLidar;
+        robocompLidar.angle = lidarAngles[i];
+        robocompLidar.dist = static_cast<float>(lidar->getValue());
+        robocompLidars[i] = robocompLidar;
+    }
+}
+
+void SpecificWorker::printLidars() {
+    for (int i = 0; i < robocompLidars.size(); ++i) {
+        std::cout << "Lidar n." << i << ":" << std::endl;
+        std::cout << "\tangle: " << robocompLidars[i].angle << std::endl;
+        std::cout << "\tdist: " << robocompLidars[i].dist << std::endl;
+    }
 }
 
 

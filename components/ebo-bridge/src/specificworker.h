@@ -34,6 +34,8 @@
 #include <webots/Supervisor.hpp>
 #include <webots/Camera.hpp>
 #include <webots/Motor.hpp>
+#include <webots/Lidar.hpp>
+#include <webots/DistanceSensor.hpp>
 
 class SpecificWorker : public GenericWorker
 {
@@ -74,6 +76,9 @@ public:
     webots::Camera* camera;
     std::array<webots::Motor*, 2> motors;
     RoboCompCameraSimple::TImage imgData;
+    std::array<webots::DistanceSensor*, 12> webotsLidars;
+    RoboCompLaser::TLaserData robocompLidars;
+    webots::DistanceSensor* emergencyLidar;
 
 public slots:
     void initialize();
@@ -84,14 +89,31 @@ public slots:
 private:
     bool startup_check_flag;
 
+    std::vector<float> lidarAngles = {
+            0,          // LIDAR 1
+            1.0472,     // LIDAR 2
+            1.5708,     // LIDAR 3
+            2.0944,     // LIDAR 4
+            2.35619,    // LIDAR 5
+            2.61799,    // LIDAR 6
+            3.14159,    // LIDAR 7
+            3.66519,    // LIDAR 8
+            3.92699,    // LIDAR 9
+            4.18879,    // LIDAR 10
+            4.71239,    // LIDAR 11
+            5.23599     // LIDAR 12
+    };
+
     void initializeRobot();
     void receivingImageData();
+    void receivingLidarsData();
 
     void printNotImplementedWarningMessage(string functionName);
 
     void testMovement();
 
     void printPosition();
+    void printLidars();
 };
 
 #endif
