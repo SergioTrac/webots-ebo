@@ -36,6 +36,8 @@
 #include <webots/Motor.hpp>
 #include <webots/Lidar.hpp>
 #include <webots/DistanceSensor.hpp>
+#include <webots/Display.hpp>
+#include <webots/ImageRef.hpp>
 
 class SpecificWorker : public GenericWorker
 {
@@ -79,6 +81,7 @@ public:
     std::array<webots::DistanceSensor*, 12> webotsLidars;
     RoboCompLaser::TLaserData robocompLidars;
     webots::DistanceSensor* emergencyLidar;
+    webots::Display* display;
 
 public slots:
     void initialize();
@@ -103,14 +106,17 @@ private:
             4.71239,    // LIDAR 11
             5.23599     // LIDAR 12
     };
+    std::map<std::string, webots::ImageRef*> facesImages;
 
     void initializeRobot();
     void receivingImageData();
     void receivingLidarsData();
+    void setExpression(std::string expression);
 
     void printNotImplementedWarningMessage(string functionName);
 
     void testMovement();
+    void testFaces();
 
     void printPosition();
     void printLidars();

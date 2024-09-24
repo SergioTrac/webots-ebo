@@ -59,7 +59,7 @@ void SpecificWorker::initialize()
 void SpecificWorker::initializeRobot(){
     robot = new webots::Supervisor();
 
-    // Camera
+    //--------------------------- Camera
     camera = robot->getCamera("camera");
     if (camera) camera->enable(this->getPeriod(STATES::Compute)); else std::cout << "Cámara no encontrada." << std::endl;
 
@@ -72,7 +72,7 @@ void SpecificWorker::initializeRobot(){
         motors[i]->setVelocity(0);                      // Initial velocity
     }
 
-    // Lidars
+    //--------------------------- Lidars
     for (int i=0; i<webotsLidars.size(); i++){
         std::string lidar_name = (i == 0) ? "lidar" : "lidar(" + std::to_string(i) + ")";
         webots::DistanceSensor* lidar = robot->getDistanceSensor(lidar_name);
@@ -83,6 +83,29 @@ void SpecificWorker::initializeRobot(){
         } else std::cout << "Lidar: " << lidar_name << " no encontrado." << std::endl;
     }
 
+    //--------------------------- Display
+    display = robot->getDisplay("display");
+    if (!display) std::cout << "Pantalla no encontrada." << std::endl;
+
+    std::string imageDirectory = "../../resources/images/";
+    for (const auto &entry : std::filesystem::directory_iterator(imageDirectory)) {
+        std::string filePath = entry.path().string();  // Ruta completa del archivo
+        std::string fileName = entry.path().stem().string();  // Nombre del archivo
+
+        // Cargar la imagen y verificar si fue cargada correctamente
+        webots::ImageRef* image = display->imageLoad(filePath);
+
+        if (image != nullptr) {
+            // Guardar la imagen en el map usando el nombre del archivo como clave
+            facesImages[fileName] = image;
+            std::cout << "Imagen cargada: " << fileName << std::endl;
+        } else {
+            std::cout << "No se pudo cargar la imagen: " << fileName << std::endl;
+        }
+    }
+    display->imagePaste(facesImages["Idle"], 0, 0, false);
+
+    //--------------------------- Simulation step
     robot->step(this->getPeriod(STATES::Compute));
 }
 
@@ -283,6 +306,7 @@ void SpecificWorker::EmotionalMotor_expressAnger()
     hibernation = true;
 #endif
 
+    setExpression("Anger");
 }
 
 void SpecificWorker::EmotionalMotor_expressDisgust()
@@ -290,8 +314,8 @@ void SpecificWorker::EmotionalMotor_expressDisgust()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
 
+    setExpression("Disgust");
 }
 
 void SpecificWorker::EmotionalMotor_expressFear()
@@ -299,8 +323,8 @@ void SpecificWorker::EmotionalMotor_expressFear()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
 
+    setExpression("Fear");
 }
 
 void SpecificWorker::EmotionalMotor_expressJoy()
@@ -308,8 +332,8 @@ void SpecificWorker::EmotionalMotor_expressJoy()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
 
+    setExpression("Joy");
 }
 
 void SpecificWorker::EmotionalMotor_expressSadness()
@@ -317,8 +341,8 @@ void SpecificWorker::EmotionalMotor_expressSadness()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
 
+    setExpression("Sadness");
 }
 
 void SpecificWorker::EmotionalMotor_expressSurprise()
@@ -326,8 +350,8 @@ void SpecificWorker::EmotionalMotor_expressSurprise()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
 
+    setExpression("Surprise");
 }
 
 void SpecificWorker::EmotionalMotor_isanybodythere(bool isAny)
@@ -521,6 +545,37 @@ void SpecificWorker::printLidars() {
         std::cout << "\tangle: " << robocompLidars[i].angle << std::endl;
         std::cout << "\tdist: " << robocompLidars[i].dist << std::endl;
     }
+}
+
+void SpecificWorker::setExpression(std::string expression) {
+    webots::ImageRef* image = facesImages[expression];
+    if(!image){
+        std::cout << "Expression not found." << std::endl;
+        return;
+    }
+
+    display->imagePaste(image, 0, 0, false);
+}
+
+void SpecificWorker::testFaces() {
+
+    EmotionalMotor_expressAnger();
+    robot->step(1000);  // Esperar 1 segundo
+
+    EmotionalMotor_expressDisgust();
+    robot->step(1000);  // Esperar 1 segundo
+
+    EmotionalMotor_expressJoy();
+    robot->step(1000);  // Esperar 1 segundo
+
+    EmotionalMotor_expressFear();
+    robot->step(1000);  // Esperar 1 segundo
+
+    EmotionalMotor_expressSadness();
+    robot->step(1000);  // Esperar 1 segundo
+
+    EmotionalMotor_expressSurprise();
+    robot->step(1000);  // Esperar 1 segundo
 }
 
 
