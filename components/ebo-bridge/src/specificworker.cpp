@@ -305,7 +305,7 @@ void SpecificWorker::EmotionalMotor_expressAnger()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-
+    std::cout << "Expressing Anger!" << std::endl;
     setExpression("Anger");
 }
 
@@ -314,7 +314,7 @@ void SpecificWorker::EmotionalMotor_expressDisgust()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-
+    std::cout << "Expressing Disgust!" << std::endl;
     setExpression("Disgust");
 }
 
@@ -323,7 +323,7 @@ void SpecificWorker::EmotionalMotor_expressFear()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-
+    std::cout << "Expressing Fear!" << std::endl;
     setExpression("Fear");
 }
 
@@ -332,7 +332,7 @@ void SpecificWorker::EmotionalMotor_expressJoy()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-
+    std::cout << "Expressing Joy!" << std::endl;
     setExpression("Joy");
 }
 
@@ -341,7 +341,7 @@ void SpecificWorker::EmotionalMotor_expressSadness()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-
+    std::cout << "Expressing Sadness!" << std::endl;
     setExpression("Sadness");
 }
 
@@ -350,7 +350,7 @@ void SpecificWorker::EmotionalMotor_expressSurprise()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-
+    std::cout << "Expressing Surprise!" << std::endl;
     setExpression("Surprise");
 }
 
