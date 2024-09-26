@@ -38,6 +38,7 @@
 #include <webots/DistanceSensor.hpp>
 #include <webots/Display.hpp>
 #include <webots/ImageRef.hpp>
+#include <webots/Speaker.hpp>
 
 class SpecificWorker : public GenericWorker
 {
@@ -82,6 +83,7 @@ public:
     RoboCompLaser::TLaserData robocompLidars;
     webots::DistanceSensor* emergencyLidar;
     webots::Display* display;
+    webots::Speaker* speaker;
 
 public slots:
     void initialize();

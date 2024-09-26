@@ -105,6 +105,15 @@ void SpecificWorker::initializeRobot(){
     }
     display->imagePaste(facesImages["Idle"], 0, 0, false);
 
+    //--------------------------- Speaker
+    speaker = robot->getSpeaker("speaker");
+    if (!speaker) std::cout << "Speaker no encontrado." << std::endl;
+    if(speaker){
+        speaker->setEngine("pico");
+        speaker->setLanguage("es-ES");
+        speaker->speak("Hola. Soy tu amigo EBO", 10);
+    }
+
     //--------------------------- Simulation step
     robot->step(this->getPeriod(STATES::Compute));
 }
@@ -145,7 +154,7 @@ RoboCompBatteryStatus::TBattery SpecificWorker::BatteryStatus_getBatteryState()
     hibernation = true;
 #endif
 //implementCODE
-
+    printNotImplementedWarningMessage("BatteryStatus_getBatteryState");
 }
 
 #pragma endregion
@@ -359,7 +368,7 @@ void SpecificWorker::EmotionalMotor_isanybodythere(bool isAny)
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
+    printNotImplementedWarningMessage("EmotionalMotor_isanybodythere");
 
 }
 
@@ -368,7 +377,7 @@ void SpecificWorker::EmotionalMotor_listening(bool setListening)
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
+    printNotImplementedWarningMessage("EmotionalMotor_listening");
 
 }
 
@@ -377,7 +386,7 @@ void SpecificWorker::EmotionalMotor_pupposition(float x, float y)
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
+    printNotImplementedWarningMessage("EmotionalMotor_pupposition");
 
 }
 
@@ -386,7 +395,7 @@ void SpecificWorker::EmotionalMotor_talking(bool setTalk)
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
+    printNotImplementedWarningMessage("EmotionalMotor_talking");
 
 }
 
@@ -399,8 +408,7 @@ RoboCompLaser::TLaserData SpecificWorker::Laser_getLaserAndBStateData(RoboCompGe
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
-
+    printNotImplementedWarningMessage("Laser_getLaserAndBStateData");
 }
 
 RoboCompLaser::LaserConfData SpecificWorker::Laser_getLaserConfData()
@@ -408,8 +416,7 @@ RoboCompLaser::LaserConfData SpecificWorker::Laser_getLaserConfData()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
-
+    printNotImplementedWarningMessage("Laser_getLaserConfData");
 }
 
 RoboCompLaser::TLaserData SpecificWorker::Laser_getLaserData()
@@ -429,8 +436,7 @@ bool SpecificWorker::Speech_isBusy()
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
-
+    printNotImplementedWarningMessage("Speech_isBusy");
 }
 
 bool SpecificWorker::Speech_say(std::string text, bool overwrite)
@@ -438,8 +444,7 @@ bool SpecificWorker::Speech_say(std::string text, bool overwrite)
 #ifdef HIBERNATION_ENABLED
     hibernation = true;
 #endif
-//implementCODE
-
+    speaker->speak(text, 1);
 }
 
 #pragma endregion
