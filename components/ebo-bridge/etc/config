@@ -8,6 +8,7 @@ EmergencyStop.Endpoints=tcp -p 0
 EmotionalMotor.Endpoints=tcp -p 30001
 Laser.Endpoints=tcp -p 10005
 Speech.Endpoints=tcp -p 0
+LEDArray.Endpoints=tcp -p 10006
 
 
 # This property is used by the clients to connect to IceStorm.
