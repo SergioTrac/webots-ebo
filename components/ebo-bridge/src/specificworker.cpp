@@ -114,6 +114,16 @@ void SpecificWorker::initializeRobot(){
         speaker->speak("Hola. Soy tu amigo EBO", 10);
     }
 
+    //--------------------------- LEDs
+    for (int i=0; i<webotsLeds.size(); i++){
+        std::string led_name = (i == 0) ? "led" : "led(" + std::to_string(i) + ")";
+        webots::LED* led = robot->getLED(led_name);
+        if (led){
+            led->set(0);
+            webotsLeds[i] = led;
+        } else std::cout << "Led: " << led_name << " no encontrado." << std::endl;
+    }
+
     //--------------------------- Simulation step
     robot->step(this->getPeriod(STATES::Compute));
 }
@@ -290,6 +300,8 @@ void SpecificWorker::DifferentialRobot_stopBase()
     motors[1]->setVelocity(0);
 
     std::cout << "Robot stopped." << std::endl;
+
+    robot->getTime();
 }
 
 #pragma endregion
@@ -449,6 +461,69 @@ bool SpecificWorker::Speech_say(std::string text, bool overwrite)
 
 #pragma endregion
 
+#pragma region LEDArray
+
+RoboCompLEDArray::PixelArray SpecificWorker::LEDArray_getLEDArray()
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+    printNotImplementedWarningMessage("LEDArray_getLEDArray");
+}
+
+bool SpecificWorker::LEDArray_setLEDArray(RoboCompLEDArray::PixelArray pixelArray)
+{
+#ifdef HIBERNATION_ENABLED
+	hibernation = true;
+#endif
+
+    // Definir la cantidad total de LEDs en el robot real y en Webots
+     const size_t WEBOTSLEDS = webotsLeds.size();      // Total de LEDs en Webots
+
+    // Asegúrate de que pixelArray tiene datos
+    if (pixelArray.empty()) {
+        std::cerr << "Error: pixelArray it's empty." << std::endl;
+        return false;
+    }
+
+    // Iterar sobre los elementos del pixelArray
+    for (const auto& pixelEntry : pixelArray) {
+        short index = pixelEntry.first; // Índice del LED en el robot real
+        const RoboCompLEDArray::Pixel& pixel = pixelEntry.second; // Pixel correspondiente
+
+        // Asegurarse de que el índice esté dentro del rango de LEDs del robot real
+        if (index < 0 || index >= REALROBOTSLEDS) {
+            std::cerr << "Warning: Index " << index << " is out of bounds for real robot LEDs." << std::endl;
+            continue; // Salir si el índice está fuera de límites
+        }
+
+        // Calcular el índice correspondiente en webotsLeds
+        size_t webotsIndex = index * WEBOTSLEDS / REALROBOTSLEDS;
+
+        // Asegurarse de que el índice esté dentro del rango de LEDs de Webots
+        if (webotsIndex < WEBOTSLEDS) {
+            // Unificar en un entero de 32 bits (con Alpha = 0xFF)
+            unsigned int color = (0xFF << 24) | (static_cast<unsigned int>(pixel.red) << 16) |
+                                 (static_cast<unsigned int>(pixel.green) << 8) |
+                                 static_cast<unsigned int>(pixel.blue);
+
+            // Comprobar que el puntero no es nulo antes de establecer el color
+            if (webotsLeds[webotsIndex] != nullptr) {
+                webotsLeds[webotsIndex]->set(color);  // Método para establecer el color en el LED de Webots
+            } else {
+                std::cerr << "Warning: Webots LED at index " << webotsIndex << " is null." << std::endl;
+            }
+        } else {
+            std::cerr << "Warning: Calculated webots index " << webotsIndex << " exceeds Webots LED count." << std::endl;
+        }
+    }
+
+    return true;
+}
+
+
+#pragma endregion
+
 void SpecificWorker::printNotImplementedWarningMessage(string functionName)
 {
 #ifdef HIBERNATION_ENABLED
@@ -601,6 +676,10 @@ void SpecificWorker::testFaces() {
 /**************************************/
 // From the RoboCompDifferentialRobot you can use this types:
 // RoboCompDifferentialRobot::TMechParams
+
+/**************************************/
+// From the RoboCompLEDArray you can use this types:
+// RoboCompLEDArray::Pixel
 
 /**************************************/
 // From the RoboCompLaser you can use this types:

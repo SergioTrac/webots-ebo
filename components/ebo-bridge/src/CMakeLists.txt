@@ -30,6 +30,7 @@ SET ( SOURCES
   differentialrobotI.cpp
   emergencystopI.cpp
   emotionalmotorI.cpp
+  ledarrayI.cpp
   laserI.cpp
   speechI.cpp
 )
@@ -41,8 +42,8 @@ FIND_PACKAGE( Ice REQUIRED COMPONENTS Ice++11 IceStorm++11)
 
 #ROBOCOMP
 ROBOCOMP_INITIALIZE( $ENV{ROBOCOMP}/ )
-ROBOCOMP_IDSL_TO_ICE( CommonBehavior BatteryStatus CameraSimple DifferentialRobot EmergencyStop EmergencyStopPub EmotionalMotor GenericBase GenericBase Laser Speech)
-ROBOCOMP_ICE_TO_SRC( CommonBehavior BatteryStatus CameraSimple DifferentialRobot EmergencyStop EmergencyStopPub EmotionalMotor GenericBase GenericBase Laser Speech)
+ROBOCOMP_IDSL_TO_ICE( CommonBehavior BatteryStatus CameraSimple DifferentialRobot EmergencyStop EmergencyStopPub EmotionalMotor GenericBase GenericBase LEDArray Laser Speech)
+ROBOCOMP_ICE_TO_SRC( CommonBehavior BatteryStatus CameraSimple DifferentialRobot EmergencyStop EmergencyStopPub EmotionalMotor GenericBase GenericBase LEDArray Laser Speech)
 SET (EXECUTABLE_OUTPUT_PATH ${RC_COMPONENT_DEVEL_PATH}/bin)
 
 

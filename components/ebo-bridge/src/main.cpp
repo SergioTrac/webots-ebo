@@ -86,6 +86,7 @@
 #include <differentialrobotI.h>
 #include <emergencystopI.h>
 #include <emotionalmotorI.h>
+#include <ledarrayI.h>
 #include <laserI.h>
 #include <speechI.h>
 
@@ -316,6 +317,24 @@ int ::EboBridge::run(int argc, char* argv[])
 		}
 		catch (const IceStorm::TopicExists&){
 			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for EmotionalMotor\n";
+		}
+
+
+		try
+		{
+			// Server adapter creation and publication
+			if (not GenericMonitor::configGetString(communicator(), prefix, "LEDArray.Endpoints", tmp, ""))
+			{
+				cout << "[" << PROGRAM_NAME << "]: Can't read configuration for proxy LEDArray";
+			}
+			Ice::ObjectAdapterPtr adapterLEDArray = communicator()->createObjectAdapterWithEndpoints("LEDArray", tmp);
+			auto ledarray = std::make_shared<LEDArrayI>(worker);
+			adapterLEDArray->add(ledarray, Ice::stringToIdentity("ledarray"));
+			adapterLEDArray->activate();
+			cout << "[" << PROGRAM_NAME << "]: LEDArray adapter created in port " << tmp << endl;
+		}
+		catch (const IceStorm::TopicExists&){
+			cout << "[" << PROGRAM_NAME << "]: ERROR creating or activating adapter for LEDArray\n";
 		}
 
 

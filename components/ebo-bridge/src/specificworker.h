@@ -39,6 +39,7 @@
 #include <webots/Display.hpp>
 #include <webots/ImageRef.hpp>
 #include <webots/Speaker.hpp>
+#include <webots/LED.hpp>
 
 class SpecificWorker : public GenericWorker
 {
@@ -74,6 +75,8 @@ public:
     RoboCompLaser::TLaserData Laser_getLaserData();
     bool Speech_isBusy();
     bool Speech_say(std::string text, bool overwrite);
+    RoboCompLEDArray::PixelArray LEDArray_getLEDArray();
+    bool LEDArray_setLEDArray(RoboCompLEDArray::PixelArray pixelArray);
 
     webots::Supervisor* robot;
     webots::Camera* camera;
@@ -84,6 +87,9 @@ public:
     webots::DistanceSensor* emergencyLidar;
     webots::Display* display;
     webots::Speaker* speaker;
+    std::array<webots::LED*, 26> webotsLeds;
+
+    const int REALROBOTSLEDS = 54;
 
 public slots:
     void initialize();

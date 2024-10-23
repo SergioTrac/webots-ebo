@@ -36,6 +36,7 @@
 #include <EmergencyStopPub.h>
 #include <EmotionalMotor.h>
 #include <GenericBase.h>
+#include <LEDArray.h>
 #include <Laser.h>
 #include <Speech.h>
 
@@ -88,6 +89,8 @@ public:
 	virtual void EmotionalMotor_listening(bool setListening) = 0;
 	virtual void EmotionalMotor_pupposition(float x, float y) = 0;
 	virtual void EmotionalMotor_talking(bool setTalk) = 0;
+	virtual RoboCompLEDArray::PixelArray LEDArray_getLEDArray() = 0;
+	virtual bool LEDArray_setLEDArray(RoboCompLEDArray::PixelArray pixelArray) = 0;
 	virtual RoboCompLaser::TLaserData Laser_getLaserAndBStateData(RoboCompGenericBase::TBaseState &bState) = 0;
 	virtual RoboCompLaser::LaserConfData Laser_getLaserConfData() = 0;
 	virtual RoboCompLaser::TLaserData Laser_getLaserData() = 0;
